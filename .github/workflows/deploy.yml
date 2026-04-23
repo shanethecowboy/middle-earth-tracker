@@ -1,0 +1,50 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build backend
+        working-directory: backend
+        run: GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ../build/server .
+
+      - name: Deploy to Lightsail
+        env:
+          SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          SSH="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no ubuntu@3.222.89.230"
+
+          $SSH "sudo systemctl stop fellowship"
+
+          scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
+            build/server ubuntu@3.222.89.230:/opt/fellowship/server
+
+          scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
+            frontend/dist/index.html ubuntu@3.222.89.230:/opt/fellowship/static/index.html
+
+          scp -i /tmp/deploy_key -o StrictHostKeyChecking=no -r \
+            frontend/dist/assets ubuntu@3.222.89.230:/opt/fellowship/static/
+
+          $SSH "sudo systemctl start fellowship"
