@@ -8,11 +8,6 @@ Live site: [fellowshipofthecode.com](https://fellowshipofthecode.com)
 
 ## Features
 
-### Jones County XC
-- Athlete roster with PR times
-- Meet schedule and locations
-- Race results with place and time
-- Admin dashboard (login required) to add, edit, and delete athletes and meets
 
 ### Middle Earth Tracker *(in development)*
 - Personal progress tracker for the complete Tolkien book and film catalog
