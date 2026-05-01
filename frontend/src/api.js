@@ -39,3 +39,33 @@ export const loginUser = (username, password) =>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password }),
   })
+
+export const adminLogin = (username, password) =>
+  req('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  })
+
+export const adminFetchUsers = (token) =>
+  req('/api/admin/tracker/users', {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+export const adminFetchUserProgress = (token, userId) =>
+  req(`/api/admin/tracker/users/${userId}/progress`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+export const adminUpdateProgress = (token, userId, mediaId, body) =>
+  req(`/api/admin/tracker/progress/${userId}/${mediaId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(body),
+  })
+
+export const adminDeleteUser = (token, userId) =>
+  req(`/api/admin/tracker/users/${userId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
