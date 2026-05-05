@@ -3,6 +3,15 @@ import { useAuth } from '../context/AuthContext'
 import { fetchMedia, fetchProgress } from '../api'
 import MediaCard from '../components/MediaCard'
 
+function SectionHeader({ children }) {
+  return (
+    <div className="flex items-center gap-4 mb-5">
+      <h2 className="text-slate-400 font-semibold text-xs uppercase tracking-widest whitespace-nowrap">{children}</h2>
+      <div className="flex-1 h-px bg-slate-800/80" />
+    </div>
+  )
+}
+
 export default function TrackerHobbit() {
   const { auth } = useAuth()
 
@@ -30,20 +39,20 @@ export default function TrackerHobbit() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-amber-400 mb-1">The Hobbit</h1>
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-amber-400 mb-2 font-cinzel tracking-wide">The Hobbit</h1>
         <p className="text-slate-500">1 book · 3 movies</p>
       </div>
 
-      <section className="mb-8">
-        <h2 className="text-slate-300 font-semibold text-sm uppercase tracking-widest mb-4">Books</h2>
+      <section className="mb-10">
+        <SectionHeader>Books</SectionHeader>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {books.map(item => <MediaCard key={item.media_id ?? item.id} item={item} />)}
         </div>
       </section>
 
       <section>
-        <h2 className="text-slate-300 font-semibold text-sm uppercase tracking-widest mb-4">Movies</h2>
+        <SectionHeader>Movies</SectionHeader>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {movies.map(item => <MediaCard key={item.media_id ?? item.id} item={item} />)}
         </div>

@@ -5,10 +5,12 @@
   --color-gold-light: #e8c96a;
   --color-surface: #1a1928;
   --color-surface-2: #221f35;
+  --font-cinzel: 'Cinzel', Georgia, serif;
 }
 
 body {
-  background-color: #111018;
+  background-color: #0f0e18;
+  background-image: radial-gradient(ellipse 100% 45% at 50% -5%, rgba(212, 168, 83, 0.07) 0%, transparent 65%);
   color: #e2e8f0;
   min-height: 100dvh;
 }
